@@ -64,7 +64,8 @@ public class JobSeekerController {
         }
         return js;
     }
-    
+
+    // membaca data pada database berdasarkan id
     public JobSeeker getJobSeekerById(int id_akun) throws SQLException {
         String queryAkun = "SELECT * FROM akun WHERE id_akun = ?";
         String queryJs = "SELECT * FROM jobseeker WHERE id_akun = ?";

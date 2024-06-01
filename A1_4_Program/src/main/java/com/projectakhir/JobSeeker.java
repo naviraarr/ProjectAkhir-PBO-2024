@@ -110,22 +110,22 @@ public class JobSeeker extends Akun {
         System.out.println("===================================");
         System.out.println("         PROFILE JOBSEEKER");
         System.out.println("===================================");
-        System.out.println("Full Name     : " + js.getNama());
+        System.out.println("Nama Lengkap  : " + js.getNama());
         System.out.println("Email         : " + js.getEmail());
-        System.out.println("Phone         : " + js.getNotelp());
-        System.out.println("Date of birth : " + js.getTgllahir());
-        System.out.println("Gender        : " + js.getJenisKelamin());
-        System.out.println("Address       : " + js.getAlamat());
-        System.out.println("City          : " + js.getKota());
-        System.out.println("Skills        : " + js.getKeahlian());
+        System.out.println("No. Telepon   : " + js.getNotelp());
+        System.out.println("Tanggal Lahir : " + js.getTgllahir());
+        System.out.println("Jenis Kelamin : " + js.getJenisKelamin());
+        System.out.println("Alamat        : " + js.getAlamat());
+        System.out.println("Kota          : " + js.getKota());
+        System.out.println("Keahlian      : " + js.getKeahlian());
         System.out.println("-----------------------------------");
         System.out.println("Username      : " + js.getUsername());
         System.out.println("Password      : " + js.getPassword());
         System.out.println("===================================");
         System.out.println("1. UPDATE PROFILE");
-        System.out.println("0. BACK");
+        System.out.println("0. KEMBALI");
         System.out.println("===================================");
-        System.out.print("Input Menu : ");
+        System.out.println("Input Menu : ");
         String input = Main.read.readLine();
         switch (input) {
             case "1":
@@ -146,21 +146,21 @@ public class JobSeeker extends Akun {
         System.out.println("===================================");
         System.out.println("      UPDATE PROFILE JOBSEEKER");
         System.out.println("===================================");
-        System.out.print("Full Name     : ");
+        System.out.print("Nama Lengkap  : ");
         String nama = Main.read.readLine();
         System.out.print("Email         : ");
         String email = Main.read.readLine();
-        System.out.print("Phone         : ");
+        System.out.print("No. Telepon   : ");
         String no_tlp = Main.read.readLine();
-        System.out.print("Date of birth : ");
+        System.out.print("Tanggal Lahir : ");
         String tgl_lahir = Main.read.readLine();
-        System.out.print("Gender        : ");
+        System.out.print("Jenis Kelamin : ");
         String jenis_kelamin = Main.read.readLine();
-        System.out.print("Address       : ");
+        System.out.print("Alamat        : ");
         String alamat = Main.read.readLine();
-        System.out.print("City          : ");
+        System.out.print("Kota          : ");
         String kota = Main.read.readLine();
-        System.out.print("Skills      : ");
+        System.out.print("Keahlian      : ");
         String keahlian = Main.read.readLine();
         System.out.println("===================================");
 
@@ -178,17 +178,16 @@ public class JobSeeker extends Akun {
     }
 
     public void showJob(int id_jobseeker) throws IOException, SQLException {
-        Main.cls();;
         System.out.println("===================================");
         System.out.println("                JOB                ");
         System.out.println("===================================");
 
-        for (Job job : Main.jobcontr.getAllJob()){
-            System.out.println("ID Job     : " + job.getIdJob());
-            System.out.println("Name       : " + job.getJobName());
-            System.out.println("Decription : " + job.getDescription());
-            System.out.println("Salary     : " + job.getSalary());
-            System.out.println("Category   : " + job.getCategory());
+        for (Job job : Main.jobcontr.getAllJob(id_jobseeker)){
+            System.out.print("ID Job     : " + job.getIdJob());
+            System.out.print("Name       : " + job.getJobName());
+            System.out.print("Decription : " + job.getDescription());
+            System.out.print("Salary     : " + job.getSalary());
+            System.out.print("Category   : " + job.getCategory());
             System.out.println("-----------------------------------");
         }
 
@@ -197,83 +196,27 @@ public class JobSeeker extends Akun {
         System.out.println("0. BACK");
         System.out.println("===================================");
 
-        System.out.print("Input Menu : ");
+        System.out.println("Input Menu : ");
         String input = Main.read.readLine();
         switch (input) {
             case "1":
                 applyJob(id_jobseeker);
+                Main.menuJobseeker(id_jobseeker);
                 break;
             case "0":
+                Main.menuJobseeker(id_jobseeker);
                 break;
             default:
-                System.out.println("Option Invalid!");
+                System.out.println("Pilihan tidak valid.");
                 break;
         }
 
     }
 
-    public void applyJob(int id_jobseeker) throws IOException, SQLException {
-        Main.cls();
+    public void applyJob(int id_jobseeker) {
         System.out.println("===================================");
-        System.out.println("                JOB                ");
+        System.out.println("Input ID Job    : ");
+        Main.
         System.out.println("===================================");
-
-        for (Job job : Main.jobcontr.getAllJob()){
-            System.out.println("ID Job     : " + job.getIdJob());
-            System.out.println("Name       : " + job.getJobName());
-            System.out.println("Decription : " + job.getDescription());
-            System.out.println("Salary     : " + job.getSalary());
-            System.out.println("Category   : " + job.getCategory());
-            System.out.println("-----------------------------------");
-        }
-
-        System.out.println("===================================");
-        System.out.print("Input ID Job    : ");
-        int found = 0;
-        int id_job = Integer.parseInt(Main.read.readLine());
-        for (Job job : Main.jobcontr.getAllJob()){
-            if (job.getIdJob() == id_job){
-                found = 1;
-                Lamaran newLamaran = new Lamaran(0, id_job, id_jobseeker, "Waiting");
-
-                Main.lamarancontr.addLamaran(newLamaran);
-            }
-        }
-        if (found != 1){
-            System.out.println("ID Job is invalid!");
-        }
-        
-        System.out.println("===================================");
-
-    }
-
-    public void showLamaran(int id_jobseeker) throws IOException, SQLException {
-        Main.cls();
-        System.out.println("===================================");
-        System.out.println("             APPLIED JOB           ");
-        System.out.println("===================================");
-        
-        for (Lamaran lamaran : Main.lamarancontr.getAllLamaran()){
-            for (Job job : Main.jobcontr.getAllJob()) {
-                if (lamaran.getIdJob() ==  job.getIdJob()) {
-                    System.out.println("ID Applied Job    : " + lamaran.getIdJob());
-                    System.out.println("Job Name          : " + job.getJobName() );
-                    System.out.println("Status            : " + lamaran.getStatus());
-                    System.out.println("-----------------------------------");
-                }
-            }   
-        }
-        System.out.println("0. BACK");
-        System.out.println("===================================");
-
-        System.out.print("Input Menu : ");
-        String input = Main.read.readLine();
-        switch (input) {
-            case "0":
-                break;
-            default:
-                System.out.println("Option Invalid!");
-                break;
-        }
     }
 }

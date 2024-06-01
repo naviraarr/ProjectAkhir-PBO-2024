@@ -34,38 +34,36 @@ public class Main {
         System.out.println("===================================");
         System.out.println("    REGISTER JOBSEEKER");
         System.out.println("===================================");
-        System.out.print("Full Name     : ");
+        System.out.print("Nama Lengkap  : ");
         String nama = read.readLine();
         System.out.print("Email         : ");
         String email = read.readLine();
-        System.out.print("Phone         : ");
+        System.out.print("No. Telepon   : ");
         String no_tlp = read.readLine();
-        System.out.print("Date of birth : ");
+        System.out.print("Tanggal Lahir : ");
         String tgl_lahir = read.readLine();
-        System.out.print("Gender        : ");
+        System.out.print("Jenis Kelamin : ");
         String jenis_kelamin = read.readLine();
-        System.out.print("Address       : ");
+        System.out.print("Alamat        : ");
         String alamat = read.readLine();
-        System.out.print("City          : ");
+        System.out.print("Kota          : ");
         String kota = read.readLine();
-        System.out.print("Skills      : ");
+        System.out.print("Keahlian      : ");
         String keahlian = read.readLine();
-        System.out.println("");
         System.out.print("Username      : ");
         String uname = read.readLine();
         System.out.print("Password      : ");
         String pw = read.readLine();
         System.out.println("===================================");
         String role = "jobseeker";
-        int id_akun = akuncontr.getLastIdAkun() + 1;
+        int id_akun = akuncontr.getLastIdAkun()+1;
 
-        JobSeeker newJobSeeker = new JobSeeker(id_akun, uname, pw, role, 0, nama, email, no_tlp, tgl_lahir,
-                jenis_kelamin, alamat, kota, keahlian);
+        JobSeeker newJobSeeker = new JobSeeker(id_akun, uname, pw, role, 0, nama, email, no_tlp, tgl_lahir, jenis_kelamin, alamat, kota, keahlian);
 
-        try {
+        try{
             jobseekcontr.addJobSeeker(newJobSeeker);
             jobseekcontr.addAkunJobSeeker(newJobSeeker);
-        } catch (SQLException e) {
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
@@ -75,49 +73,47 @@ public class Main {
         System.out.println("===================================");
         System.out.println("    REGISTER RECRUITER");
         System.out.println("===================================");
-        System.out.print("Name          : ");
+        System.out.print("Nama          : ");
         String nama = read.readLine();
         System.out.print("Email         : ");
         String email = read.readLine();
-        System.out.print("Phone         : ");
+        System.out.print("No. Telepon   : ");
         String no_tlp = read.readLine();
-        System.out.print("Address       : ");
+        System.out.print("Alamat        : ");
         String alamat = read.readLine();
-        System.out.print("Instance      : ");
+        System.out.print("Instansi      : ");
         String instansi = read.readLine();
-        System.out.println("");
         System.out.print("Username      : ");
         String uname = read.readLine();
         System.out.print("Password      : ");
         String pw = read.readLine();
         System.out.println("===================================");
-        String role = "recruiter";
-        int id_akun = akuncontr.getLastIdAkun() + 1;
+        String role = "rectuiter";
+        int id_akun = akuncontr.getLastIdAkun()+1;
 
-        Recruiter newRecruiter = new Recruiter(id_akun, uname, pw, role, 0, nama, email, no_tlp, alamat, instansi,
-                "Pending");
+        Recruiter newRecruiter = new Recruiter(id_akun, uname, pw, role, 0, nama, email, no_tlp, alamat, instansi);
 
-        try {
+        try{
             recruitercontr.addRecruiter(newRecruiter);
-            recruitercontr.addAkunRecruiter(newRecruiter);
-        } catch (SQLException e) {
+            recruitercontr.addRecruiter(newRecruiter);
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public static void menuAdmin(int get_id_akun) throws IOException, SQLException {
-        while (isLogged == true) {
+    public static void menuRecruiter(int get_id_akun) throws IOException, SQLException {
+        while (true) {
             cls();
             Recruiter rc = Main.recruitercontr.getRecruiterById(get_id_akun);
             System.out.println("===================================");
-            System.out.println("          MENU ADMIN          ");
+            System.out.println("          MENU RECRUIITER          ");
             System.out.println("===================================");
-            System.out.println("      1. SHOW PROFILE              ");
-            System.out.println("      2. ADD JOB                   ");
-            System.out.println("      3. SHOW JOB                  ");
-            System.out.println("      4. SHOW APPLICANT            ");
-            System.out.println("      5. APPLICANT VERIFICATION    ");
-            System.out.println("      0. LOGOUT                    ");
+            System.out.println("      1. LIHAT PROFILE             ");
+            System.out.println("      1. TAMBAH LOWONGAN           ");
+            System.out.println("      2. LIHAT LOWONGAN            ");
+            System.out.println("      3. LIHAT LAMARAN             ");
+            System.out.println("      4. VERIFIKASI LAMARAN        ");
+            System.out.println("      0. BACK TO MAIN MENU         ");
             System.out.println("===================================");
             System.out.print("Input Menu : ");
             String input = read.readLine();
@@ -129,80 +125,33 @@ public class Main {
                     rc.addJob(rc.getIdRecruiter());
                     break;
                 case "3":
-
-                    break;
-                case "4":
-
-                    break;
-                case "5":
-
+                    rc.showJob(rc.getIdRecruiter());
                     break;
                 case "0":
-
+                    rc.
                     break;
                 default:
                     System.out.println("Pilihan tidak valid.");
-                    break;
+                    break;    
             }
             break;
         }
+        
     }
 
-    public static void menuRecruiter(int get_id_akun) throws IOException, SQLException {
-        while (isLogged == true) {
-            cls();
-            Recruiter rc = Main.recruitercontr.getRecruiterById(get_id_akun);
-            System.out.println("===================================");
-            System.out.println("          MENU RECRUIITER          ");
-            System.out.println("===================================");
-            System.out.println("      1. SHOW PROFILE              ");
-            System.out.println("      2. ADD JOB                   ");
-            System.out.println("      3. SHOW JOB                  ");
-            System.out.println("      4. SHOW APPLICANT            ");
-            System.out.println("      0. LOGOUT                    ");
-            System.out.println("===================================");
-            System.out.print("Input Menu : ");
-            String input = read.readLine();
-            int get_id_recruiter = rc.getIdRecruiter();
-            switch (input) {
-                case "1":
-                    rc.showProfileRecuiter(get_id_akun);
-                    break;
-                case "2":
-                    rc.addJob(get_id_recruiter);
-                    break;
-                case "3":
-                    rc.showJob(get_id_recruiter);
-                    break;
-                case "4":
-                    rc.showApplicant(get_id_recruiter);
-                    break;
-                case "0":
-                    isLogged = false;
-                    break;
-                default:
-                    System.out.println("Input Invalid");
-                    break;
-            }
-        }
-    }
-
-    public static void menuJobseeker(int get_id_akun) throws IOException, SQLException {
-        while (isLogged == true) {
+    public static void menuJobseeker(int get_id_akun) throws IOException, SQLException{
+        while (true) {
             cls();
             System.out.println("===================================");
             System.out.println("           MENU JOBSEEKER          ");
             System.out.println("===================================");
-            System.out.println("         1. SHOW PROFILE           ");
-            System.out.println("         2. SHOW JOB               ");
-            System.out.println("         3. SHOW APPLIED JOB       ");
-            System.out.println("         0. LOGOUT                  ");
+            System.out.println("         1. LIHAT PROFILE           ");
+            System.out.println("         2. LIHAT PEKERJAAN         ");
+            System.out.println("         3. LIHAT LAMARAN           ");
+            System.out.println("         0. KELUAR                  ");
             System.out.println("===================================");
             System.out.print("Input Menu : ");
             String input = read.readLine();
-
-            JobSeeker get_id_js = jobseekcontr.getJobSeekerById(get_id_akun);
-
             switch (input) {
                 case "1":
                     js.profile(get_id_akun);
@@ -211,21 +160,22 @@ public class Main {
                     js.showJob(get_id_akun);
                     break;
                 case "3":
-                    js.showLamaran(get_id_js.getIdJobseeker());
+                    
                     break;
                 case "0":
-                    isLogged = false;
+
                     break;
                 default:
                     System.out.println("Pilihan tidak valid.");
-                    break;
+                    break;    
             }
+            break;
         }
     }
 
     public static int verify(String username, String password) throws IOException, SQLException {
-        for (Akun acc : akuncontr.getAllAkun()) {
-            if (acc.getUsername().equals(username) && acc.getPassword().equals(password)) {
+        for (Akun acc : akuncontr.getAllAkun()){
+            if (acc.getUsername().equals(username) && acc.getPassword().equals(password)){
                 isLogged = true;
                 return acc.getId();
             }
@@ -244,14 +194,12 @@ public class Main {
         String pw = read.readLine();
         System.out.println("===================================");
         int verify = verify(uname, pw);
-        if (verify != -1) {
+        if (verify != -1){
             Akun akun = akuncontr.getAkunById(verify);
-            if (akun.getRole().equals("recruiter")) {
+            if (akun.getRole().equals("recruiter")){
                 menuRecruiter(akun.getId());
-            } else if (akun.getRole().equals("jobseeker")) {
+            } else if (akun.getRole().equals("jobseeker")){
                 menuJobseeker(akun.getId());
-            } else if (akun.getRole().equals("admin")) {
-                // menuAdmin();
             }
         } else {
             System.out.println("Invalid Akun");
@@ -260,33 +208,35 @@ public class Main {
 
     public static void main(String[] args) throws IOException, SQLException {
         while (true) {
-            cls();
-            System.out.println("===================================");
-            System.out.println("        WELCOME TO JOB PORTAL      ");
-            System.out.println("===================================");
-            System.out.println("         1. LOGIN                  ");
-            System.out.println("         2. REGISTER RECRUITER     ");
-            System.out.println("         3. REGISTER JOBSEEKER     ");
-            System.out.println("         0. EXIT FROM SYSTEM       ");
-            System.out.println("===================================");
-            System.out.print("Input Menu : ");
-            String input = read.readLine();
-            switch (input) {
-                case "1":
-                    login();
-                    break;
-                case "2":
-                    regisRecruiter();
-                    break;
-                case "3":
-                    regisJobSeeker();
-                    break;
-                case "0":
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Pilihan tidak valid.");
-                    break;
+            if (isLogged == false) {
+                cls();
+                System.out.println("===================================");
+                System.out.println("        WELCOME TO JOB PORTAL      ");
+                System.out.println("===================================");
+                System.out.println("         1. LOGIN                  ");
+                System.out.println("         2. REGISTER RECRUITER     ");
+                System.out.println("         3. REGISTER JOBSEEKER     ");
+                System.out.println("         0. EXIT FROM SYSTEM       ");
+                System.out.println("===================================");
+                System.out.print("Input Menu : ");
+                String input = read.readLine();
+                switch (input) {
+                    case "1":
+                        login();
+                        break;
+                    case "2":
+                        regisJobSeeker();
+                        break;
+                    case "3":
+                        regisJobSeeker();
+                        break;
+                    case "0":
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Pilihan tidak valid.");
+                        break;
+                }
             }
         }
     }

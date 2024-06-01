@@ -12,7 +12,7 @@ public class JobController {
     }
     
     public void addJob(Job job) throws SQLException{
-        String query = "INSERT INTO job (id_recruiter, job_name, description, salary, category) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO job (id_recruiter, job_name, desc_job, salary, category) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatementRecruiter = connection.prepareStatement(query)) {
             preparedStatementRecruiter.setInt(1, job.getIdRecruiter());
             preparedStatementRecruiter.setString(2, job.getJobName());
@@ -21,26 +21,6 @@ public class JobController {
             preparedStatementRecruiter.setString(5, job.getCategory());
             preparedStatementRecruiter.executeUpdate();
         }  
-    }
-
-    public List<Job> getAllJob() throws SQLException {
-        List<Job> job = new ArrayList<>();
-        String query = "SELECT * FROM job";
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query)) {
-                    while (resultSet.next()) {
-                        job.add(new Job(
-                            resultSet.getInt("id_job"),
-                            resultSet.getInt("id_recruiter"),
-                            resultSet.getString("job_name"),
-                            resultSet.getString("description"),
-                            resultSet.getString("salary"),
-                            resultSet.getString("category")
-                            )
-                    );
-                    }
-        }
-        return job;
     }
 
     public List<Job> getAllJob(int id_recruiter) throws SQLException {

@@ -1,5 +1,10 @@
 package com.projectakhir;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Lamaran {
     private int id_lamaran;
     private int id_job;
@@ -17,7 +22,7 @@ public class Lamaran {
 
     }
 
-    public int getIdLamaran() {
+    public int getILamaran() {
         return id_lamaran;
     }
 

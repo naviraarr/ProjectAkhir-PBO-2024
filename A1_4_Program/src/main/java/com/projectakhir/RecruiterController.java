@@ -12,15 +12,14 @@ public class RecruiterController {
     }
 
     public void addRecruiter(Recruiter recruiter) throws SQLException {
-        String queryrc = "INSERT INTO recruiter (id_akun, nama, email, no_tlp, alamat, instansi, status) VALUES (?,?,?,?,?,?,?)";
-        try (PreparedStatement preparedStatementRecruiter = connection.prepareStatement(queryrc)) {
+        String queryjs = "INSERT INTO recruiter (id_akun, nama_job, email, no_tlp, alamat, instansi) VALUES (?,?,?,?,?,?)";
+        try (PreparedStatement preparedStatementRecruiter = connection.prepareStatement(queryjs)) {
             preparedStatementRecruiter.setInt(1, recruiter.getId());
             preparedStatementRecruiter.setString(2, recruiter.getNama());
             preparedStatementRecruiter.setString(3, recruiter.getEmail());
             preparedStatementRecruiter.setString(4, recruiter.getNoTlp());
             preparedStatementRecruiter.setString(5, recruiter.getAlamat());
             preparedStatementRecruiter.setString(6, recruiter.getInstansi());
-            preparedStatementRecruiter.setString(7, recruiter.getStatus());
             preparedStatementRecruiter.executeUpdate();
         }   
     }
@@ -52,8 +51,7 @@ public class RecruiterController {
                         resultSet.getString("email"),
                         resultSet.getString("no_tlp"),
                         resultSet.getString("alamat"),
-                        resultSet.getString("intansi"),
-                        resultSet.getString("status")
+                        resultSet.getString("intansi")
                         )
                     );
                     }
@@ -79,12 +77,11 @@ public class RecruiterController {
                                     resultSetAkun.getString("password"),
                                     resultSetAkun.getString("role"),
                                     resultSetRc.getInt("id_recruiter"),
-                                    resultSetRc.getString("nama"),
+                                    resultSetRc.getString("nama_job"),
                                     resultSetRc.getString("email"),
                                     resultSetRc.getString("no_tlp"),
                                     resultSetRc.getString("alamat"),
-                                    resultSetRc.getString("instansi"),
-                                    resultSetRc.getString("status")
+                                    resultSetRc.getString("instansi")
                                 );
                             }
                         }

@@ -1,6 +1,9 @@
 package com.projectakhir;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Recruiter extends Akun {
@@ -10,10 +13,9 @@ public class Recruiter extends Akun {
     private String no_tlp;
     private String alamat;
     private String instansi;
-    private String status;
 
     public Recruiter(int id, String username, String password, String role, int id_recruiter, String nama, String email,
-            String no_tlp, String alamat, String instansi, String status) {
+            String no_tlp, String alamat, String instansi) {
         super(id, username, password, role);
         this.id_recruiter = id_recruiter;
         this.nama = nama;
@@ -21,7 +23,6 @@ public class Recruiter extends Akun {
         this.no_tlp = no_tlp;
         this.alamat = alamat;
         this.instansi = instansi;
-        this.status = status;
     }
 
     public Recruiter() {
@@ -76,33 +77,26 @@ public class Recruiter extends Akun {
         this.instansi = instansi;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void showProfileRecuiter(int id_akun) throws IOException, SQLException {
+    public void showProfileRecuiter(int id_recruiter) throws IOException, SQLException {
         Main.cls();
-        Recruiter rc = Main.recruitercontr.getRecruiterById(id_akun);
+        Recruiter rc = Main.recruitercontr.getRecruiterById(id_recruiter);
         System.out.println("===================================");
         System.out.println("          PROFILE RECRUITER         ");
         System.out.println("===================================");
-        System.out.println("Name          : " + rc.getNama());
+        System.out.println("Nama Lengkap  : " + rc.getNama());
         System.out.println("Email         : " + rc.getEmail());
-        System.out.println("Phone         : " + rc.getNoTlp());
-        System.out.println("Address       : " + rc.getAlamat());
-        System.out.println("Instance      : " + rc.getInstansi());
+        System.out.println("No. Telepon   : " + rc.getNoTlp());
+        System.out.println("Alamat        : " + rc.getAlamat());
+        System.out.println("Instansi      : " + rc.getInstansi());
         System.out.println("-----------------------------------");
         System.out.println("Username      : " + rc.getUsername());
         System.out.println("Password      : " + rc.getPassword());
         System.out.println("===================================");
         System.out.println("1. UPDATE PROFILE");
-        System.out.println("0. BACK");
+        System.out.println("0. KEMBALI");
         System.out.println("===================================");
-        System.out.print("Input Menu : ");
+        System.out.println("Input Menu : ");
+        System.out.println("Input Menu : ");
         String input = Main.read.readLine();
         switch (input) {
             case "1":
@@ -112,7 +106,7 @@ public class Recruiter extends Akun {
                 Main.menuRecruiter(rc.getId());
                 break;
             default:
-                System.out.println("Input Invalid!");
+                System.out.println("Pilihan tidak valid.");
                 break;
         }
     }
@@ -137,7 +131,7 @@ public class Recruiter extends Akun {
         Akun akunJobSeeker = Main.akuncontr.getAkunById(id_akun);
 
         Recruiter updateRecruiter = new Recruiter(akunJobSeeker.getId(), akunJobSeeker.getUsername(),
-                akunJobSeeker.getPassword(), akunJobSeeker.getRole(), id_recruiter, nama, email, no_tlp, alamat, instansi, "Pending");
+                akunJobSeeker.getPassword(), akunJobSeeker.getRole(), id_recruiter, nama, email, no_tlp, alamat, instansi);
 
         try {
             Main.recruitercontr.updateRecruiter(updateRecruiter, id_recruiter);
@@ -150,18 +144,20 @@ public class Recruiter extends Akun {
     public void addJob(int id_recruiter) throws IOException, SQLException {
         Main.cls();
         
+        String job_name, desc_job, category, salary;
+
         System.out.println("===================================");
         System.out.println("           ADD NEW JOB             ");
         System.out.println("===================================");
         
-        System.out.print("Job Name      : ");
-        String job_name = Main.read.readLine();
-        System.out.print("Description   : ");
-        String desc_job = Main.read.readLine();
-        System.out.print("Salary        : ");
-        String salary = Main.read.readLine();
-        System.out.print("Category      : ");
-        String category = Main.read.readLine();
+        System.out.print("Nama      : ");
+        job_name = Main.read.readLine();
+        System.out.print("Deskripsi : ");
+        desc_job = Main.read.readLine();
+        System.out.print("Gaji      : ");
+        salary = Main.read.readLine();
+        System.out.print("Kategori  : ");
+        category = Main.read.readLine();
 
         Job newJob = new Job(0, id_recruiter, job_name, desc_job, salary, category);
 
@@ -172,109 +168,152 @@ public class Recruiter extends Akun {
         }
     }
 
-    public void showJob(int id_recruiter) throws IOException, SQLException {
-        Main.cls();
-        System.out.println("===================================");
-        System.out.println("              SHOW JOB             ");
-        System.out.println("===================================");
+    // public void showJob(int id__recruiter) throws IOException, SQLException {
+    //     Main.cls();
+    //     System.out.println("===================================");
+    //     System.out.println("              SHOW JOB             ");
+    //     System.out.println("===================================");
         
-        for (Job job : Main.jobcontr.getAllJob(id_recruiter)){
-            System.out.println("ID Job     : " + job.getIdJob());
-            System.out.println("Name       : " + job.getJobName());
-            System.out.println("Decription : " + job.getDescription());
-            System.out.println("Salary     : " + job.getSalary());
-            System.out.println("Category   : " + job.getCategory());
-            System.out.println("-----------------------------------");
-        }
+    //     for (Job job : Main.jobcontr.getAllJob(id__recruiter)){
+    //         System.out.print("ID Job     : " + job.getIdJob());
+    //         System.out.print("Name       : " + job.getJobName());
+    //         System.out.print("Decription : " + job.getDescription());
+    //         System.out.print("Salary     : " + job.getSalary());
+    //         System.out.print("Category   : " + job.getCategory());
+    //         System.out.println("-----------------------------------");
+    //     }
 
-        System.out.println("===================================");
-        System.out.println("0. BACK");
-        System.out.println("===================================");
-        System.out.print("Input Menu : ");
-        String input = Main.read.readLine();
-        switch (input) {
-            case "0":
-                break;
-            default:
-                System.out.println("Input Invalid!");
-                break;
-        }
-    }
+    //     System.out.println("===================================");
+    //     System.out.println("1. UPDATE JOB");
+    //     System.out.println("2. DELETE JOB");
+    //     System.out.println("0. KEMBALI");
+    //     System.out.println("===================================");
+    //     System.out.println("Input Menu : ");
+    //     String input = Main.read.readLine();
+    //     switch (input) {
+    //         case "1":
+    //             updateProfile(js.getId(), js.getIdJobseeker());
+    //             Main.menuJobseeker(js.getId());
+    //             break;
+    //         case "0":
+    //             Main.menuJobseeker(js.getId());
+    //             break;
+    //         default:
+    //             System.out.println("Pilihan tidak valid.");
+    //             break;
+    //     }
+    // }
 
-    public void showApplicant(int id_recruiter) throws IOException, SQLException {
-        Main.cls();
-        System.out.println("===================================");
-        System.out.println("          SHOW APPLICANT          ");
-        System.out.println("===================================");
-       
-        for (Job job : Main.jobcontr.getAllJob(id_recruiter)){
-            for (Lamaran lamaran : Main.lamarancontr.getAllLamaran()){
-                if (lamaran.getIdJob() == job.getIdJob() ){
-                    for (JobSeeker js : Main.jobseekcontr.getAllJobSeeker()){
-                        if (lamaran.getIdJobseeker() == js.getIdJobseeker()){
-                            System.out.println("ID Application    : " + lamaran.getIdJob());
-                            System.out.println("Job Name          : " + job.getJobName() );
-                            System.out.println("Name Applicant    : " + js.getNama());
-                            System.out.println("-----------------------------------");
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("===================================");
-        System.out.println("1. VERIFY APPLICATION");
-        System.out.println("0. BACK");
-        System.out.println("===================================");
-        System.out.print("Input Menu : ");
-        String input = Main.read.readLine();
-        switch (input) {
-            case "1":
-                verifyApplication(id_recruiter);
-                break;
-            case "0":
-                break;
-            default:
-                System.out.println("Pilihan tidak valid.");
-                break;
-        }
-
-    }
-
-    public static void verifyApplication(int id_recruiter) throws IOException, SQLException {
-        System.out.println("===================================");
-        System.out.println("          VERIFY APPLICANT         ");
-        System.out.println("===================================");
-
-        for (Lamaran lamaran : Main.lamarancontr.getAllLamaran()){
-            for (Job job : Main.jobcontr.getAllJob(id_recruiter)){
-                if (lamaran.getIdJob() == job.getIdJob() ){
-                    for (JobSeeker js : Main.jobseekcontr.getAllJobSeeker()){
-                        if (lamaran.getIdJobseeker() == js.getIdJobseeker()){
-                            System.out.print("ID Application    : " + lamaran.getIdJob());
-                            System.out.print("Job Name          : " + job.getJobName() );
-                            System.out.print("Name Applicant    : " + js.getNama());
-                            System.out.println("-----------------------------------");
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("===================================");
-        System.out.print("Input ID Application : ");
-        int id_application = Integer.parseInt(Main.read.readLine());
-        for (Lamaran lamaran : Main.lamarancontr.getAllLamaran()){
-            if (id_application == lamaran.getIdLamaran()){
-                System.out.print("Input Y to Accept | Input N to Reject : ");
-                String input = Main.read.readLine();
-                if (input.equals("Y")) {
-                    Lamaran updateLamaran = new Lamaran(id_application, lamaran.getIdJob(), lamaran.getIdJobseeker(), "Accept");
-                    Main.lamarancontr.updateLamaran(updateLamaran, id_application);
-                } else if (input.equals("N")) {
-                    Lamaran updateLamaran = new Lamaran(id_application, lamaran.getIdJob(), lamaran.getIdJobseeker(), "Reject");
-                    Main.lamarancontr.updateLamaran(updateLamaran, id_application);
-                }
-            }
-        }
+    public static void showLamaran() {
         
     }
+
+
+    
+
+    // public static void lihatLowongan() {
+    //     String query = "SELECT * FROM Job";
+    //     try (Connection connection = koneksi.getConnection();
+    //             PreparedStatement statement = connection.prepareStatement(query);
+    //             ResultSet rs = statement.executeQuery()) {
+    //         System.out.println("Daftar Job");
+    //         // int i = 1;
+    //         while (rs.next()) {
+    //             String id = rs.getString("id_job");
+    //             String job_name = rs.getString("job_name");
+    //             String desc_job = rs.getString("desc_job");
+    //             String salary = rs.getString("salary");
+    //             String category = rs.getString("category");
+
+    //             System.out.println("ID: " + id);
+    //             System.out.println("Posisi: " + job_name);
+    //             System.out.println("Deskripsi Pekerjaan:" + desc_job);
+    //             System.out.println("Gaji: " + salary);
+    //             System.out.println("Kategori Pekerjaan: " + category);
+    //             // i++;
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //         System.out.println("Gagal mengambil data lamaran: " + e.getMessage());
+    //     }
+    // }
+
+    // public static String verifikasiLamaran(int id) {
+    //     String query = "UPDATE Lamaran SET verifikasi = ? WHERE id_lamaran = ?";
+    //     try (Connection conn = koneksi.getConnection();
+    //             PreparedStatement pstmt = conn.prepareStatement(query)) {
+    //         pstmt.setString(1, "Selesai");
+    //         pstmt.setInt(2, id);
+    //         int rowsUpdated = pstmt.executeUpdate();
+    //         if (rowsUpdated > 0) {
+    //             return "Lamaran sudah diverifikasi.";
+    //         } else {
+    //             return "Verifikasi lamaran gagal.";
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //         return "Terjadi kesalahan pada verifikasi lamaran.";
+    //     }
+    // }
+
+    // public static void editLowongan() {
+    //     try {
+    //         conn = koneksi.getConnection();
+    //         int id_job;
+    //         String job_name, desc_job, category;
+    //         Double salary;
+
+    //         System.out.print("ID Pekerjaan yang akan diedit: ");
+    //         id_job = Integer.parseInt(br.readLine());
+    //         System.out.print("Posisi: ");
+    //         job_name = br.readLine();
+    //         System.out.print("Deskripsi: ");
+    //         desc_job = br.readLine();
+    //         System.out.print("Gaji: ");
+    //         salary = Double.parseDouble(br.readLine());
+    //         System.out.print("Kategori: ");
+    //         category = br.readLine();
+
+    //         String query = "UPDATE job SET job_name = ?, desc_job = ?, salary = ?, category = ? WHERE id_job = ?";
+    //         try (PreparedStatement pst = conn.prepareStatement(query)) {
+    //             pst.setString(1, job_name);
+    //             pst.setString(2, desc_job);
+    //             pst.setDouble(3, salary);
+    //             pst.setString(4, category);
+    //             pst.setInt(5, id_job);
+    //             pst.executeUpdate();
+    //             System.out.println("Lowongan berhasil diperbarui!");
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //             System.out.println("Gagal memperbarui lowongan: " + e.getMessage());
+    //         }
+    //     } catch (SQLException | IOException e) {
+    //         e.printStackTrace();
+    //         System.out.println("Gagal membuat koneksi: " + e.getMessage());
+    //     }
+    // }
+
+    // public static void hapusLowongan() {
+    //     try {
+    //         conn = koneksi.getConnection();
+    //         int id_job;
+
+    //         System.out.print("ID Pekerjaan yang akan dihapus: ");
+    //         id_job = Integer.parseInt(br.readLine());
+
+    //         String query = "DELETE FROM job WHERE id_job = ?";
+    //         try (PreparedStatement pst = conn.prepareStatement(query)) {
+    //             pst.setInt(1, id_job);
+    //             pst.executeUpdate();
+    //             System.out.println("Lowongan berhasil dihapus!");
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //             System.out.println("Gagal menghapus lowongan: " + e.getMessage());
+    //         }
+    //     } catch (SQLException | IOException e) {
+    //         e.printStackTrace();
+    //         System.out.println("Gagal membuat koneksi: " + e.getMessage());
+    //     }
+    // }
+
 }
